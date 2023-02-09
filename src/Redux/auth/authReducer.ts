@@ -15,10 +15,10 @@ const initialState: IInitialState = {
   isRefreshing: false,
 };
 
-export const authSlice = createSlice<IInitialState>({
+export const authSlice = createSlice({
   name: 'auth',
   initialState,
-
+  reducers: {},
   extraReducers: builder =>
     builder
       .addCase(signUp.pending, (state, _) => state)
@@ -28,8 +28,8 @@ export const authSlice = createSlice<IInitialState>({
         state.isLoggedIn = false;
       })
       .addCase(signUp.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
-        state.token = payload.token;
+        state.user = payload.data.user;
+        state.token = payload.data.token;
         state.isLoggedIn = true;
       })
 
@@ -40,8 +40,8 @@ export const authSlice = createSlice<IInitialState>({
         state.isLoggedIn = false;
       })
       .addCase(signIn.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
-        state.token = payload.token;
+        state.user = payload.data.user;
+        state.token = payload.data.token;
         state.isLoggedIn = true;
       })
 

@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../../../Redux/auth/authOperations';
 import * as SC from './RegisterForm.styled';
+import { AppDispatch } from '../../../Redux/store';
 
 export const RegisterForm = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handlInputChange = evt => {
+  const handlInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const field = evt.target;
     switch (field.name) {
       case 'name':
@@ -30,14 +31,14 @@ export const RegisterForm = () => {
     setName('');
   };
 
-  const handleSubmit = evt => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const form = evt.currentTarget;
+    // const form = evt.currentTarget;
     dispatch(
       signUp({
-        name: form.elements.name.value,
-        email: form.elements.email.value,
-        password: form.elements.password.value,
+        name,
+        email,
+        password,
       })
     );
     resetForm();

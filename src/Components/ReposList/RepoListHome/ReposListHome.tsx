@@ -8,10 +8,7 @@ export const ReposListHome = ({ userRepos, isLoading, reposDropdown }: any) => {
   if (!userRepos?.length) return null;
   return (
     <>
-      <SC.List
-        element="ul"
-        // options={{ scrollbars }}
-      >
+      <SC.List element="ul" options={{ scrollbars }}>
         {isLoading && <li>Loading...</li>}
         {!userRepos.length && <li>{<NoInfo />}</li>}
         {userRepos.map(

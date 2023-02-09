@@ -1,14 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { IUserAccount, ICurrentUser } from '../../interfaces/interfaces.git';
 import { RootState } from '../store';
-
-interface IAccount {
-  name?: string;
-  password: string;
-  email: string;
-}
+import { selectToken } from './authSelectors';
+import { ICredentials, IUserAcount, ICurrentUser } from './auth.interface';
+import { AsyncThunkConfig } from '../root.interface';
 
 // axios.defaults.baseURL = 'https://github-repo-searcher-nodejs.onrender.com/api';
 axios.defaults.baseURL = 'http://localhost:3001/api';
@@ -20,29 +16,25 @@ const clearAuthHeader = (): void => {
   axios.defaults.headers.common.Authorization = '';
 };
 
-export const signUp = createAsyncThunk(
-  'auth/signUp',
-  async (credentials: IAccount, thunkAPI) => {
-    try {
-      const { data } = await axios.post<IUserAccount>(
-        '/auth/register',
-        credentials
-      );
-      setAuthHeader(data.data.token);
-      return data.data;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+export const signUp = createAsyncThunk<
+  IUserAcount,
+  ICredentials,
+  AsyncThunkConfig
+>('auth/signUp', async (credentials, thunkAPI) => {
+  try {
+    const { data } = await axios.post('/auth/register', credentials);
+    setAuthHeader(data.token);
+    return data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
   }
-);
+});
+
 export const signIn = createAsyncThunk(
   'auth/signIn',
-  async (credentials: IAccount, thunkAPI) => {
+  async (credentials, thunkAPI) => {
     try {
-      const { data } = await axios.post<IUserAccount>(
-        '/auth/login',
-        credentials
-      );
+      const { data } = await axios.post('/auth/login', credentials);
       setAuthHeader(data.data.token);
       return data.data;
     } catch (error: any) {
@@ -64,20 +56,13 @@ export const logOut = createAsyncThunk('auth/logOut', async (_, thunkAPI) => {
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
-    // Reading the token from the state via getState()
-    const state: RootState = thunkAPI.getState();
-
-    const persistedToken: string | null = state.auth.token;
-    if (!persistedToken) {
-      // If there is no token, exit without performing any request
+    const token = selectToken(thunkAPI.getState() as RootState);
+    if (!token) {
       return thunkAPI.rejectWithValue('Unable to fetch user');
     }
-
     try {
-      // If there is a token, add it to the HTTP header and perform the request
-      setAuthHeader(persistedToken);
+      setAuthHeader(token);
       const { data } = await axios.get<ICurrentUser>('/users/current');
-
       return data.data.user;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);

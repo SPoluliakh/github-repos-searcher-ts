@@ -14,16 +14,16 @@ import { gitApi } from './gitApiOperations/gitOperations';
 import { reposApi } from './reposOperations/reposOperations';
 import { authSlice } from './auth/authReducer';
 
-const middleware = (getDefaultMiddleware: any) => [
-  ...getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
-  }),
+// const middleware = (getDefaultMiddleware: any) => [
+//   ...getDefaultMiddleware({
+//     serializableCheck: {
+//       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+//     },
+//   }),
 
-  gitApi.middleware,
-  reposApi.middleware,
-];
+//   gitApi.middleware,
+//   reposApi.middleware,
+// ];
 
 const authPersistConfig = {
   key: 'auth',
@@ -33,13 +33,19 @@ const authPersistConfig = {
 
 export const store = configureStore({
   reducer: {
-    auth: persistReducer(authPersistConfig, authSlice.reducer),
+    auth: persistReducer(authPersistConfig, authSlice.reducer)!,
     [gitApi.reducerPath]: gitApi.reducer,
     [reposApi.reducerPath]: reposApi.reducer,
   },
-  middleware,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat([gitApi.middleware, reposApi.middleware]),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export const persistor = persistStore(store);
