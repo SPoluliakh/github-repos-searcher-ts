@@ -5,8 +5,8 @@ import { RootState } from '../store';
 export const reposApi = createApi({
   reducerPath: 'repos/api',
   baseQuery: fetchBaseQuery({
-    // baseUrl: 'https://github-repo-searcher-nodejs.onrender.com/api',
-    baseUrl: 'http://localhost:3001/api',
+    baseUrl: 'https://github-repo-searcher-nodejs.onrender.com/api',
+    // baseUrl: 'http://localhost:3001/api',
     prepareHeaders: (headers, { getState }) => {
       const token: string | null = (getState() as RootState).auth.token;
       if (token) {

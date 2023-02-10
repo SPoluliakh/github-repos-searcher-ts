@@ -6,8 +6,8 @@ import { selectToken } from './authSelectors';
 import { ICredentials, IUserAcount, ICurrentUser } from './auth.interface';
 import { AsyncThunkConfig } from '../root.interface';
 
-// axios.defaults.baseURL = 'https://github-repo-searcher-nodejs.onrender.com/api';
-axios.defaults.baseURL = 'http://localhost:3001/api';
+axios.defaults.baseURL = 'https://github-repo-searcher-nodejs.onrender.com/api';
+// axios.defaults.baseURL = 'http://localhost:3001/api';
 
 const setAuthHeader = (token: String): void => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -23,7 +23,7 @@ export const signUp = createAsyncThunk<
 >('auth/signUp', async (credentials, thunkAPI) => {
   try {
     const { data } = await axios.post('/auth/register', credentials);
-    setAuthHeader(data.token);
+    setAuthHeader(data.data.token);
     return data;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
@@ -37,7 +37,7 @@ export const signIn = createAsyncThunk<
 >('auth/signIn', async (credentials, thunkAPI) => {
   try {
     const { data } = await axios.post('/auth/login', credentials);
-    setAuthHeader(data.token);
+    setAuthHeader(data.data.token);
     return data;
   } catch (error: any) {
     toast.error('Name or email error');

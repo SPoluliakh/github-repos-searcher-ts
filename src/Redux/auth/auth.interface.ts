@@ -6,7 +6,7 @@ export interface ICredentials {
 
 export interface IUserAcount {
   data: {
-    user: { email: string; name: string; avatarURL?: string };
+    user: { email: string; name: string };
     token: string;
   };
   code: number;
@@ -15,7 +15,7 @@ export interface IUserAcount {
 
 export interface ICurrentUser {
   data: {
-    user: { email: string; name: string; avatarURL?: string };
+    user: { email: string; name: string };
   };
   status: string;
   code: number;
