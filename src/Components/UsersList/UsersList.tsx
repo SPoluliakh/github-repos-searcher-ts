@@ -1,9 +1,22 @@
-import PropTypes from 'prop-types';
-import { NoInfo } from '../../Components/NoInfo/NoInfo';
+import { MouseEvent } from 'react';
+import { NoInfo } from '../NoInfo/NoInfo';
 import * as SC from './UsersList.styled';
 import { scrollbars } from '../../Helpers/scrollbars';
+import { IGitAcounts } from '../../Redux/gitApiOperations/git.interfaces';
 
-export const UsersList = ({ users, onItemClick, reposDropdown, isLoading }) => {
+interface IProps {
+  users: IGitAcounts[];
+  onItemClick: (evt: MouseEvent<HTMLLIElement>) => void;
+  reposDropdown: boolean;
+  isLoading: boolean;
+}
+
+export const UsersList = ({
+  users,
+  onItemClick,
+  reposDropdown,
+  isLoading,
+}: IProps) => {
   return (
     <SC.UserList
       data-check={reposDropdown}
@@ -19,11 +32,4 @@ export const UsersList = ({ users, onItemClick, reposDropdown, isLoading }) => {
       ))}
     </SC.UserList>
   );
-};
-
-UsersList.propTypes = {
-  users: PropTypes.array,
-  reposDropdown: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  onItemClick: PropTypes.func,
 };

@@ -1,12 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IRepos, IRepo } from './repos.interface';
+import { RootState } from '../store';
 
 export const reposApi = createApi({
   reducerPath: 'repos/api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://github-repo-searcher-nodejs.onrender.com/api',
-    // baseUrl: 'http://localhost:3001/api',
+    // baseUrl: 'https://github-repo-searcher-nodejs.onrender.com/api',
+    baseUrl: 'http://localhost:3001/api',
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const token = (getState() as RootState).auth.token;
+      // const token: string | null = (getState() as RootState).auth.token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       } else {
@@ -17,9 +20,9 @@ export const reposApi = createApi({
   }),
   tagTypes: ['repos'],
   endpoints: builder => ({
-    getAllRepos: builder.query({
+    getAllRepos: builder.query<IRepo[], string>({
       query: () => `/library`,
-      transformResponse: response => response.data.result,
+      transformResponse: (response: IRepos) => response.data.result,
       providesTags: ['repos'],
     }),
     addRepo: builder.mutation({
@@ -45,9 +48,6 @@ export const reposApi = createApi({
         body: {
           coments: data,
         },
-        // headers: {
-        //   origin: '*',
-        // },
       }),
       invalidatesTags: ['repos'],
     }),

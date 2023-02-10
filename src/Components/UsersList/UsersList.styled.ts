@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
-export const UserList = styled(OverlayScrollbarsComponent)`
+export const UserList = styled(OverlayScrollbarsComponent)<{
+  ['data-check']: boolean;
+}>`
   list-style: none;
   position: absolute;
   top: ${p => (p['data-check'] ? 580 : 60)}px;

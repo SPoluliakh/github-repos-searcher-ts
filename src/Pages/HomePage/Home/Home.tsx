@@ -38,9 +38,9 @@ export const Home = () => {
     setReposDropdown(false);
   };
 
-  const clickHandler = (evt: MouseEvent<HTMLButtonElement>) => {
-    const { textContent } = evt.target as HTMLButtonElement;
-    getUserRepo(textContent);
+  const clickHandler = (evt: MouseEvent<HTMLLIElement>) => {
+    const { textContent } = evt.target as HTMLLIElement;
+    getUserRepo(textContent as string);
     setReposDropdown(true);
   };
   return (
@@ -55,7 +55,7 @@ export const Home = () => {
         />
         {userDropdown && (
           <UsersList
-            users={data}
+            users={data!}
             reposDropdown={reposDropdown}
             onItemClick={clickHandler}
             isLoading={isFetching}
@@ -63,7 +63,7 @@ export const Home = () => {
         )}
         {reposDropdown && query.length >= 3 && (
           <ReposListHome
-            userRepos={userRepos}
+            userRepos={userRepos!}
             isLoading={isFetching}
             reposDropdown={reposDropdown}
           />

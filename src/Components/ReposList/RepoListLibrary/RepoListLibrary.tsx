@@ -1,9 +1,14 @@
-import PropTypes from 'prop-types';
 import { RepoListItem } from '../RepoListItem/RepoListItem';
 import * as SC from './RepoListLibrary.styled';
+import { IRepo } from '../../../Redux/reposOperations/repos.interface';
 
-export const ReposListLibrary = ({ userRepos, isLoading }) => {
-  if (!userRepos) return;
+interface IProps {
+  userRepos: IRepo[];
+  isLoading: boolean;
+}
+
+export const ReposListLibrary = ({ userRepos, isLoading }: IProps) => {
+  if (!userRepos) return null;
   return (
     <>
       <SC.List>
@@ -35,9 +40,4 @@ export const ReposListLibrary = ({ userRepos, isLoading }) => {
       </SC.List>
     </>
   );
-};
-
-ReposListLibrary.propTypes = {
-  userRepos: PropTypes.array,
-  isLoading: PropTypes.bool,
 };

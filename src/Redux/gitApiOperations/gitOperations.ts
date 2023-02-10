@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IGitAcounts, IUsers } from './git.interfaces';
+import { IGitAcounts, IUsers, IRepo } from './git.interfaces';
 
 export const gitApi = createApi({
   reducerPath: 'github/api',
@@ -17,7 +17,7 @@ export const gitApi = createApi({
       transformResponse: (response: IUsers) => response.items,
       providesTags: ['gitApi'],
     }),
-    getUserRepos: builder.query({
+    getUserRepos: builder.query<IRepo[], string>({
       query: query => `users/${query}/repos`,
       providesTags: ['gitApi'],
     }),

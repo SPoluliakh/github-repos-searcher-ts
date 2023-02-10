@@ -8,7 +8,7 @@ export const Item = styled.li`
   }
 `;
 
-export const ReposWrap = styled.div`
+export const ReposWrap = styled.div<{ ['data-list']?: boolean }>`
   width: ${p => (p['data-list'] ? 200 : 350)}px;
   padding: ${p => p.theme.space[3]}px;
   box-shadow: ${p => p.theme.shadows.textShadow};

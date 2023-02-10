@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useAuth } from '../../huks/useAuth';
 import { RepoComents } from '../../RepoComents/RepoComents';
 import { useState } from 'react';
@@ -10,7 +9,21 @@ import {
   useRemoveRepoMutation,
 } from '../../../Redux/reposOperations/reposOperations';
 import * as SC from './RepoListItem.styled';
-let imgWidth = window.innerWidth >= 1200;
+
+let imgWidth: boolean = window.innerWidth >= 1200;
+
+interface IProps {
+  key: number | string;
+  id?: string;
+  html_url: string;
+  full_name: string;
+  forks: number;
+  watchers: number;
+  description: string;
+  updated_at: string;
+  coments?: string;
+  reposDropdown?: boolean;
+}
 
 export const RepoListItem = ({
   id,
@@ -22,7 +35,7 @@ export const RepoListItem = ({
   updated_at,
   coments,
   reposDropdown,
-}) => {
+}: IProps) => {
   const reposData = {
     html_url,
     full_name,
@@ -31,7 +44,7 @@ export const RepoListItem = ({
     description,
     updated_at,
   };
-  const { data } = useGetAllReposQuery();
+  const { data } = useGetAllReposQuery('');
   const [isInLibrary, setIsInLibrary] = useState(() =>
     data?.some(repo => repo.html_url === html_url)
   );
@@ -93,20 +106,8 @@ export const RepoListItem = ({
             )}
           </SC.ArrowWrap>
         )}
-        {id && <RepoComents coments={coments} id={id} />}
+        {id && <RepoComents coments={coments!} id={id} />}
       </SC.Item>
     </>
   );
-};
-
-RepoListItem.propTypes = {
-  id: PropTypes.string,
-  html_url: PropTypes.string,
-  full_name: PropTypes.string,
-  forks: PropTypes.number,
-  watchers: PropTypes.number,
-  description: PropTypes.string,
-  updated_at: PropTypes.string,
-  coments: PropTypes.string,
-  reposDropdown: PropTypes.bool,
 };

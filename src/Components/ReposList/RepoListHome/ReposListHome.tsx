@@ -1,10 +1,20 @@
-import PropTypes from 'prop-types';
 import { NoInfo } from '../../NoInfo/NoInfo';
 import { RepoListItem } from '../RepoListItem/RepoListItem';
 import * as SC from './ReposListHome.styled';
 import { scrollbars } from '../../../Helpers/scrollbars';
+import { IRepo } from '../../../Redux/gitApiOperations/git.interfaces';
 
-export const ReposListHome = ({ userRepos, isLoading, reposDropdown }: any) => {
+interface IProps {
+  userRepos: IRepo[];
+  isLoading: boolean;
+  reposDropdown: boolean;
+}
+
+export const ReposListHome = ({
+  userRepos,
+  isLoading,
+  reposDropdown,
+}: IProps) => {
   if (!userRepos?.length) return null;
   return (
     <>
@@ -20,7 +30,7 @@ export const ReposListHome = ({ userRepos, isLoading, reposDropdown }: any) => {
             watchers,
             description,
             updated_at,
-          }: any) => (
+          }) => (
             <RepoListItem
               key={id}
               html_url={html_url}
@@ -36,10 +46,4 @@ export const ReposListHome = ({ userRepos, isLoading, reposDropdown }: any) => {
       </SC.List>
     </>
   );
-};
-
-ReposListHome.propTypes = {
-  userRepos: PropTypes.array,
-  isLoading: PropTypes.bool,
-  reposDropdown: PropTypes.bool,
 };
