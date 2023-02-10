@@ -22,3 +22,11 @@ export interface IRepos {
   code: number;
   status: string;
 }
+
+export interface IComents {
+  status: string;
+  code: number;
+  data: {
+    result: string;
+  };
+}

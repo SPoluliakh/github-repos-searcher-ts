@@ -14,17 +14,6 @@ import { gitApi } from './gitApiOperations/gitOperations';
 import { reposApi } from './reposOperations/reposOperations';
 import { authSlice } from './auth/authReducer';
 
-// const middleware = (getDefaultMiddleware: any) => [
-//   ...getDefaultMiddleware({
-//     serializableCheck: {
-//       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-//     },
-//   }),
-
-//   gitApi.middleware,
-//   reposApi.middleware,
-// ];
-
 const authPersistConfig = {
   key: 'auth',
   storage,

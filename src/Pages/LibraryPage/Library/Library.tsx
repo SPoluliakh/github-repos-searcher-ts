@@ -5,7 +5,7 @@ import { FaSearch } from 'react-icons/fa';
 import * as SC from './Library.styled';
 
 export const Library = () => {
-  const { data, isFetching } = useGetAllReposQuery();
+  const { data, isFetching } = useGetAllReposQuery('');
   return (
     <section>
       <h1 className="visually-hidden">Your library</h1>
@@ -19,7 +19,7 @@ export const Library = () => {
           </CustomLink>
         </SC.Text>
       )}
-      <ReposListLibrary userRepos={data} isLoading={isFetching} />
+      <ReposListLibrary userRepos={data!} isLoading={isFetching} />
     </section>
   );
 };

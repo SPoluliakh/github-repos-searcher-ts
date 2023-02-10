@@ -1,7 +1,8 @@
 import * as SC from './CustomLink.styled';
+import React from 'react';
 
 interface IProps {
-  children: string;
+  children: React.ReactNode;
   to: string;
 }
 

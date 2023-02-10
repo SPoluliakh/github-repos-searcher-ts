@@ -4,12 +4,12 @@ import { useUpdateRepoComentsMutation } from '../../Redux/reposOperations/reposO
 import * as SC from './RepoComents.styled';
 
 interface IProps {
-  coments: String;
+  coments: string;
   id: string;
 }
 
 export const RepoComents = ({ coments, id }: IProps) => {
-  const [repoComents, setRepoComents] = useState(coments);
+  const [repoComents, setRepoComents] = useState<string>(coments);
   const [updateRepoComents] = useUpdateRepoComentsMutation();
 
   const handleComentsChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
@@ -24,7 +24,10 @@ export const RepoComents = ({ coments, id }: IProps) => {
       setRepoComents('Your coments...');
       return;
     }
-    const comentToUpdate = { id, data: repoComents };
+    const comentToUpdate = {
+      id,
+      data: repoComents,
+    };
     updateRepoComents(comentToUpdate);
   };
 

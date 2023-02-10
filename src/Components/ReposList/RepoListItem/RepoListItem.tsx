@@ -58,7 +58,7 @@ export const RepoListItem = ({
   };
 
   const handlRemoveClickBtn = () => {
-    removeRepo(id);
+    removeRepo(id as string);
     setIsInLibrary(false);
   };
 

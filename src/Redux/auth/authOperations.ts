@@ -30,19 +30,20 @@ export const signUp = createAsyncThunk<
   }
 });
 
-export const signIn = createAsyncThunk(
-  'auth/signIn',
-  async (credentials, thunkAPI) => {
-    try {
-      const { data } = await axios.post('/auth/login', credentials);
-      setAuthHeader(data.data.token);
-      return data.data;
-    } catch (error: any) {
-      toast.error('Name or email error');
-      return thunkAPI.rejectWithValue(error.message);
-    }
+export const signIn = createAsyncThunk<
+  IUserAcount,
+  ICredentials,
+  AsyncThunkConfig
+>('auth/signIn', async (credentials, thunkAPI) => {
+  try {
+    const { data } = await axios.post('/auth/login', credentials);
+    setAuthHeader(data.token);
+    return data;
+  } catch (error: any) {
+    toast.error('Name or email error');
+    return thunkAPI.rejectWithValue(error.message);
   }
-);
+});
 
 export const logOut = createAsyncThunk('auth/logOut', async (_, thunkAPI) => {
   try {

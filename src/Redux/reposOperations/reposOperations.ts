@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IRepos, IRepo } from './repos.interface';
+import { IRepos, IRepo, IComents } from './repos.interface';
 import { RootState } from '../store';
 
 export const reposApi = createApi({
@@ -8,8 +8,7 @@ export const reposApi = createApi({
     // baseUrl: 'https://github-repo-searcher-nodejs.onrender.com/api',
     baseUrl: 'http://localhost:3001/api',
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token;
-      // const token: string | null = (getState() as RootState).auth.token;
+      const token: string | null = (getState() as RootState).auth.token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       } else {
@@ -34,14 +33,15 @@ export const reposApi = createApi({
 
       invalidatesTags: ['repos'],
     }),
-    removeRepo: builder.mutation({
+    removeRepo: builder.mutation<IRepo[], string>({
       query: id => ({
         method: 'delete',
         url: `/library/${id}`,
       }),
+      transformResponse: (response: IRepos) => response.data.result,
       invalidatesTags: ['repos'],
     }),
-    updateRepoComents: builder.mutation({
+    updateRepoComents: builder.mutation<string, { data: string; id: string }>({
       query: ({ data, id }) => ({
         method: 'PATCH',
         url: `/library/${id}/coments`,
@@ -49,6 +49,7 @@ export const reposApi = createApi({
           coments: data,
         },
       }),
+      transformResponse: (response: IComents) => response.data.result,
       invalidatesTags: ['repos'],
     }),
   }),

@@ -1,4 +1,4 @@
 export interface IProps {
-  component: React.FC;
+  component: JSX.Element;
   redirectTo: string;
 }

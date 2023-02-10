@@ -16,7 +16,7 @@ export interface IUserAcount {
 export interface ICurrentUser {
   data: {
     user: { email: string; name: string; avatarURL?: string };
-    status: string;
-    code: number;
   };
+  status: string;
+  code: number;
 }

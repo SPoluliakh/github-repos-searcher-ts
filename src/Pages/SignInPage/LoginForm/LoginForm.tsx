@@ -1,14 +1,15 @@
 import { useDispatch } from 'react-redux';
 import { signIn } from '../../../Redux/auth/authOperations';
 import * as SC from './LoginForm.styled';
-import { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { AppDispatch } from '../../../Redux/store';
 
 export const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handlInputChange = evt => {
+  const handlInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const field = evt.target;
     switch (field.name) {
       case 'email':
@@ -25,13 +26,13 @@ export const LoginForm = () => {
     setPassword('');
   };
 
-  const handleSubmit = evt => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const form = evt.currentTarget;
+    // const form = evt.currentTarget;
     dispatch(
       signIn({
-        email: form.elements.email.value,
-        password: form.elements.password.value,
+        email,
+        password,
       })
     );
     resetForm();

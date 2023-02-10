@@ -1,7 +1,13 @@
 import { CustomLink } from '../CustomLink/CustomLink';
 import * as SC from './AuthNav.styled';
 
-const pages = [
+interface IPages {
+  id: string;
+  name: string;
+  href: string;
+}
+
+const pages: IPages[] = [
   { id: '1', name: 'Sign up', href: 'signup' },
   { id: '2', name: 'Sign in', href: 'signin' },
 ];

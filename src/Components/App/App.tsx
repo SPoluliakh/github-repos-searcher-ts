@@ -6,6 +6,7 @@ import { PrivateRout } from '../CustomRouts/PrivateRout';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { refreshUser } from '../../Redux/auth/authOperations';
+import { AppDispatch } from '../../Redux/store';
 
 const NotFoundPage = lazy(() =>
   import('../../Pages/NotFoundPage/NotFoundPage').then(module => ({
@@ -39,7 +40,7 @@ const SignInPages = lazy(() =>
 );
 
 export const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(refreshUser());
